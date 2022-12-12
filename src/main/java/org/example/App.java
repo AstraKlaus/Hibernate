@@ -25,16 +25,14 @@ public class App
         try {
             session.beginTransaction();
 
-            Person person = session.get(Person.class, 3);
-            List<Item> items = person.getItems();
+            Person person = new Person("Cascade", 13);
+            person.addItem(new Item("first"));
+            person.addItem(new Item("second"));
+            person.addItem(new Item("third"));
 
-            for (Item item: items)
-                session.remove(item);
-
-            person.getItems().clear();
+            session.persist(person);
 
             session.getTransaction().commit();
-
         } finally {
             sessionFactory.close();
         }

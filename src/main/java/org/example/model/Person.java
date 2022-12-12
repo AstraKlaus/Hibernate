@@ -2,6 +2,7 @@ package org.example.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
     private List<Item> items;
 
     public  Person(){}
@@ -29,6 +30,13 @@ public class Person {
         this.age = age;
     }
 
+    public void addItem(Item item){
+        if (items == null)
+            items = new ArrayList<>();
+
+        items.add(item);
+        item.setOwner(this);
+    }
     public int getId() {
         return id;
     }
